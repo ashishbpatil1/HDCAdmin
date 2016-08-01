@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "ContactUs";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<style>
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .map {
+        min-width: 166px;
+        min-height: 300px;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<!-- Start Service Page -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="default-page">
+            <div class="row">
+
+                <div class="col-md-5">
+                    <h4>Feel Free to Contact Us</h4>
+                    <form role="form" id="contact-form" class="contact-form">
+                        <div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="FirstName" autocomplete="off" id="FirstName" placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="LastName" autocomplete="off" id="LastName" placeholder="Last Name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="Email" autocomplete="off" id="Email" placeholder="Email">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="PhoneNumber" autocomplete="off" id="PhoneNumber" placeholder="PhoneNumber">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control textarea" rows="3" name="Message" id="Message" placeholder="Message" autocomplete="off"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-success pull-right">Send a message</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-7">
+                    <h4>Our Office</h4>
+                    <div>
+                        <div class="panel panel-default">
+                            <div class="panel-body text-center">
+                                <h4>Address</h4>
+                                <div>
+                                    2B, Saneguruji Housing Society,
+                                    Near Swami Samarth Kendra,
+                                    Amalner - 425 401, Dist. Jalgaon
+                                </div>
+                                <hr />
+                                <div id="map1" class="map">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

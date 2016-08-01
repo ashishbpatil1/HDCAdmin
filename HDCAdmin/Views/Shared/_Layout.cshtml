@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html data-ng-app="app">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Deshmukh Construction</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/font-awesome/css")
+    @Styles.Render("~/Scripts/angular-chart")
+    <style>
+        .col-lg-12 {
+            padding-right: 0px;
+        }
+        .row {
+            margin-right: 0px;
+        }
+        .paddingbottom{
+            padding-bottom:20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper" class="toggled">
+        @if (Request.IsAuthenticated)
+        {
+        <!-- Sidebar -->
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        HD
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Dashboard", "Home")" class="dashboard"></a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("User", "Home")" class="user"></a>
+                    </li>
+                    <li>
+                        <a href="#">Ove</a>
+                    </li>
+                    <li>
+                        <a href="#">Eve</a>
+                    </li>
+                    <li>
+                        <a href="#">Abo</a>
+                    </li>
+                    <li>
+                        <a href="#">Ser</a>
+                    </li>
+                    <li>
+                        <a href="#">Con</a>
+                    </li>
+                </ul>
+            </div>
+        <!-- /#sidebar-wrapper -->
+        }
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <nav class="navbar navbar-inverse">
+                            <div class="container-fluid">
+                                <!-- Brand and toggle get grouped for better mobile display -->
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                    @if (Request.IsAuthenticated)
+                                    {
+                                        <a href="#menu-toggle" class="navbar-brand" id="menu-toggle"><span class="glyphicon glyphicon-chevron-right" aria-hidden="false" /></a>
+                                    }
+                                    <img src="~/Content/img/Logo1.png" class="navbar-brand hidden-xs" style="padding:0px;" />
+                                    <img src="~/Content/img/Logo1_2.png" class="navbar-brand visible-xs" style="padding:0px;" />
+                                        @*@Html.ActionLink("Deshmukh Constructions", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+
+                                </div>
+
+                                <!-- Collect the nav links, forms, and other content for toggling -->
+                                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                    <ul class="nav navbar-nav">
+                                        @if (Request.IsAuthenticated)
+                                        {
+                                            @*<li>@Html.ActionLink("Dashboard", "Dashboard", "Home")</li>*@
+                                            <li>
+                                                <ul class="nav navbar-nav">
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">    
+                                                            @Html.Label("Settings")
+                                                            <span class="caret"></span>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>@Html.ActionLink("My Companies", "MyCompany", "Home")</li>
+                                                            <li>@Html.ActionLink("My Sites", "Sites", "Home")</li>
+                                                            <li>@Html.ActionLink("Material", "Material", "Home")</li>
+                                                            <li>@Html.ActionLink("Material SubType", "MaterialSubType", "Home")</li>
+                                                            <li>@Html.ActionLink("User Type", "UserType", "Home")</li>
+                                                            <li role="separator" class="divider"></li>
+                                                            <li><a href="#">other</a></li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        }
+                                    </ul>
+                                    @Html.Partial("_LoginPartial")
+                                </div><!-- /.navbar-collapse -->
+                            </div><!-- /.container-fluid -->
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+  
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>Deshmukh Constructions &copy; @DateTime.Now.Year - All Rights Reserved</p>
+        </footer>
+    </div>
+    <div id="myDiv">
+        <img src="~/Content/img/ajax-loader.gif" class="ajax-loader" />
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @Scripts.Render("~/bundles/angularjs")
+    @Scripts.Render("~/bundles/uibootstrap")
+    @Scripts.Render("~/bundles/appjs")
+
+    @Scripts.Render("~/bundles/cookieManagerjs")
+    @Scripts.Render("~/bundles/notyjs")
+    @Scripts.Render("~/bundles/MultiSelectDDL")
+    @Scripts.Render("~/bundles/AngularChart")
+
+    @*<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/dotansimha/angularjs-dropdown-multiselect/master/src/angularjs-dropdown-multiselect.js"></script>*@    
+
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        $(function () {
+            $('a[href="' + this.location.pathname + '"]').parents('li,ul').addClass('active');
+
+            $('[data-toggle="tooltip"]').tooltip()
+            var dashboardContent = "<table><tr><td><img src='../Content/img/Icons/Yellow/15.gif' style='width:50px;height:50px;margin-right:10px; '></img></td><td>Dashboard</td></tr></table>";
+            $('.dashboard').popover({ html: true, content: dashboardContent, trigger: 'hover', placement: 'right', container: 'body' });
+            var userContent = "<table><tr><td><img src='../Content/img/Icons/Yellow/18.gif' style='width:50px;height:50px;margin-right:10px; '></img></td><td>User</td></tr></table>";
+            $('.user').popover({ html: true, content: userContent, trigger: 'hover', placement: 'right', container: 'body' });
+
+
+
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+
+            });
+
+            $('#menu-toggle').click(function () {
+                $(this).find('span').toggleClass('glyphicon-chevron-left').toggleClass('glyphicon-chevron-right');
+            });
+
+            $('#chart-toggle').click(function () {
+                $(this).find('span').toggleClass('glyphicon-chevron-up').toggleClass('glyphicon-chevron-down');
+            });
+        });
+    </script>
+</body>
+</html>

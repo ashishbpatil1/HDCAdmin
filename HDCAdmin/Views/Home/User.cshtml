@@ -1,0 +1,209 @@
+﻿@{
+    ViewBag.Title = "User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div data-ng-controller="UserController" class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <strong class="error">{{ error }}</strong>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Users</h3>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+
+
+    <div class="modal fade" id="userModelAdd" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h4 class="modal-title" id="myModalLabel" ng-hide="editMode">Add New User</h4>
+                    <h4 class="modal-title" id="myModalLabel" ng-show="editMode">Edit User</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form" name="adduserform">
+                        <div id="myDivLoader">
+                            <img src="~/Content/img/ajax-loader.gif" class="ajax-loader" />
+                        </div>
+                        <div class="form-group required">
+                            <label for="title" class="col-sm-4 control-label">First Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" data-ng-model="user.FirstName" class="form-control" placeholder="First Name" required title="Enter First Name" />
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="title" class="col-sm-4 control-label">Last Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" data-ng-model="user.LastName" class="form-control" placeholder="Last Name" required title="Enter Last Name" />
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="title" class="col-sm-4 control-label">Email</label>
+                            <div class="col-sm-8">
+                                <input type="email" data-ng-model="user.Email" e class="form-control" placeholder="Email" required title="Enter Email" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="title" class="col-sm-4 control-label">Mobile Number</label>
+                            <div class="col-sm-8">
+                                <input type="text" data-ng-model="user.PhoneNumber" class="form-control" placeholder="Mobile Number" title="Enter Mobile Number" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="title" class="col-sm-4 control-label">Address</label>
+                            <div class="col-sm-8">
+                                <input type="text" data-ng-model="user.Address" class="form-control" placeholder="Address" title="Enter Address" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="title" class="col-sm-4 control-label">Description</label>
+                            <div class="col-sm-8">
+                                <input type="text" data-ng-model="user.Description" class="form-control" placeholder="Description" title="Enter Description" />
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="title" class="col-sm-4 control-label">Can Login</label>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="checkbox" data-ng-model="user.IsEnabled">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="title" class="col-sm-4 control-label">Password</label>
+                            <div class="col-sm-8">
+                                <input type="password" data-ng-model="user.Password" class="form-control" id="title" placeholder="Password" required title="Enter Password" />
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="title" class="col-sm-4 control-label">Confirm Password</label>
+                            <div class="col-sm-8">
+                                <input type="password" data-ng-model="user.Password" class="form-control" id="title" placeholder="Confirm Password" required title="ReEnter Password" />
+                            </div>
+                        </div>
+                        @*<div class="form-group required">
+                                <label for="title" class="col-sm-4 control-label">User Type</label>
+                                <div class="col-sm-8">
+                                    <div ng-dropdown-multiselect options="UserTypes" selected-model="SelectedUsers" checkboxes="true" extra-settings="usertypessettings" translation-texts="UserTypescustomTexts"></div>
+                                </div>
+                            </div>*@
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-8">
+                                <span data-ng-hide="editMode">
+                                    <input type="submit" value="Add" ng-disabled="adduserform.$invalid" data-ng-click="add(user)" class="btn btn-success btn-sm" />
+                                </span>
+                                <span data-ng-show="editMode">
+                                    <input type="submit" value="Update" ng-disabled="adduserform.$invalid" data-ng-click="update(user)" class="btn btn-success btn-sm" />
+                                </span>
+                                <input type="button" value="Cancel" data-ng-click="cancel()" class="btn btn-primary btn-sm" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="form-inline" style="width:100%">
+        <tr class="form-group" style="width:65%;">
+            <td>
+                <h4>User List</h4>
+            </td>
+        </tr>
+        <tr class="form-group" style="width:20%;">
+            <td>
+                <input ng-model="q" id="search" class="form-control" placeholder="Filter text" data-toggle="tooltip" data-placement="bottom" title="Filter Text">
+            </td>
+        </tr>
+        <tr class="form-group" style="width:10%;">
+            <td>
+                <input type="number" min="1" max="100" class="form-control" ng-model="pageSize" data-toggle="tooltip" data-placement="bottom" title="Page Size">
+            </td>
+        </tr>
+        <tr class="form-group" style="width:5%;">
+            <td>
+                <a data-ng-click="showadd()" href="javascript:;" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Add User Type">+</a>
+            </td>
+        </tr>
+    </table>
+
+    <table class="table table-hover table-bordered" id="data">
+        <tbody>
+            <tr class="tableHeading">
+                <th class="hidden">Id</th>
+                <th>Name</th>
+                <th class="hidden-xs">Email</th>
+                <th>Phone Number</th>
+                <th class="hidden-xs">Description</th>
+                <th class="hidden-xs">Can Login</th>
+                <th>Actions</th>
+            </tr>
+
+            <tr dir-paginate="user in users | filter:q | itemsPerPage: pageSize" current-page="currentPage">
+                <td class=" hidden">
+                    <strong>{{ user.Id }}</strong>
+                </td>
+                <td>
+                    <p>{{ user.FirstName }} {{ user.LastName }} </p>
+                </td>
+                <td class="hidden-xs">
+                    <p>{{ user.Email }}</p>
+                </td>
+                <td>
+                    <p>{{ user.PhoneNumber }}</p>
+                </td>
+                <td class="hidden-xs">
+                    <p>{{ user.Description }}</p>
+                </td>
+                <td class="hidden">
+                    <p>{{ user.IsEnabled }}</p>
+                </td>
+                <td class="hidden-xs">
+                    <p>{{ user.IsEnabledStr }}</p>
+                </td>
+                <td>
+                    <p>
+                        <a data-ng-click="edit(user)" href="javascript:;" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a> |
+                        <a data-ng-click="showconfirm(user)" href="javascript:;"><span title="Delete" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="myDivLoader">
+                    <img src="~/Content/img/ajax-loader.gif" class="ajax-loader" />
+                </div>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Action</h4>
+                </div>
+                <div class="modal-body">
+
+                    Are you sure to delete {{user.FirstName}} {{ user.LastName}}? <div class="hidden">{{user.Id}}</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-ng-click="delete(user)">Ok</button>
+                    <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div ng-controller="OtherController" class="other-controller">
+    <div class="text-center">
+        <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="../Scripts/dirPagination.tpl.html"></dir-pagination-controls>
+    </div>
+</div>

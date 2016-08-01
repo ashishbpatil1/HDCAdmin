@@ -1,0 +1,141 @@
+﻿@{
+    ViewBag.Title = "Material";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div data-ng-controller="MaterialController" class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <strong class="error">{{ error }}</strong>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Material</h3>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+
+    <table class="form-inline" style="width:100%">
+        <tr class="form-group" style="width:65%;">
+            <td>
+                <h4>Material List</h4>
+            </td>
+        </tr>
+        <tr class="form-group" style="width:20%;">
+            <td>
+                <input ng-model="q" id="search" class="form-control" placeholder="Filter text" data-toggle="tooltip" data-placement="bottom" title="Filter Text">
+            </td>
+        </tr>
+        <tr class="form-group" style="width:10%;">
+            <td>
+                <input type="number" min="1" max="100" class="form-control" ng-model="pageSize" data-toggle="tooltip" data-placement="bottom" title="Page Size">
+            </td>
+        </tr>
+        <tr class="form-group" style="width:5%;">
+            <td>
+                <a data-ng-click="showadd()" href="javascript:;" class="btn btn-primary btn-sm pull-right" data-toggle="tooltip" data-placement="bottom" title="Add Material Type">+</a>
+            </td>
+        </tr>
+    </table>
+
+
+
+    <div class="modal fade" id="materialModelAdd" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h4 class="modal-title" id="myModalLabel" ng-hide="editMode">Add New Material Type</h4>
+                    <h4 class="modal-title" id="myModalLabel" ng-show="editMode">Edit Material Type</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form" name="addmaterialform">
+                        <div class="form-group">
+                            <label for="title" class="col-sm-4 control-label">Material Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" data-ng-model="material.MaterialType1" class="form-control" id="title" placeholder="Material Name" required title="Enter Material name" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="title" class="col-sm-4 control-label">Default Cost</label>
+                            <div class="col-sm-8">
+                                <input type="number" step="0.01" data-ng-model="material.DefaultCost" class="form-control" id="title" placeholder="Default Cost" title="Enter Default Cost" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-8">
+                                <span data-ng-hide="editMode">
+                                    <input type="submit" value="Add" ng-disabled="addmaterialform.$invalid" data-ng-click="add(material)" class="btn btn-success btn-sm" />
+                                </span>
+                                <span data-ng-show="editMode">
+                                    <input type="submit" value="Update" ng-disabled="addmaterialform.$invalid" data-ng-click="update(material)" class="btn btn-success btn-sm" />
+                                </span>
+                                <input type="button" value="Cancel" data-ng-click="cancel()" class="btn btn-primary btn-sm" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-hover table-bordered">
+        <tr class="tableHeading">
+            <th class="hidden">MaterialId</th>
+            <th>Material Name</th>
+            <th>Default Cost</th>
+            <th>Actions</th>
+            <th>Configure SubTypes</th>
+        </tr>
+
+        <tr dir-paginate="material in materials | filter:q | itemsPerPage: pageSize" current-page="currentPage">
+            <td class="hidden"><strong>{{ material.MaterialId }}</strong></td>
+            <td>
+                <p>{{ material.MaterialType1 }}</p>
+            </td>
+            <td>
+                <p>{{ material.DefaultCost }}</p>
+            </td>
+            <td>
+                <p>
+                    @*<a data-ng-click="view(material)" href="javascript:;">View</a> |*@
+                    <a data-ng-click="edit(material)" href="javascript:;"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a> |
+                    <a data-ng-click="showconfirm(material)" href="javascript:;"><span title="Delete" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                </p>
+            </td>
+            <td>
+                <p>
+                    <a data-ng-click="SubTypeClick(material)" href="javascript:;">SubTypes</a>
+                </p>
+            </td>
+        </tr>
+    </table>
+
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Action</h4>
+                </div>
+                <div class="modal-body">
+
+                    Are you sure to delete {{material.MaterialType1}}? <div class="hidden">{{material.MaterialId}}</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-ng-click="delete(material)">Ok</button>
+                    <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div ng-controller="OtherController" class="other-controller">
+    <div class="text-center">
+        <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="../Scripts/dirPagination.tpl.html"></dir-pagination-controls>
+    </div>
+</div>
